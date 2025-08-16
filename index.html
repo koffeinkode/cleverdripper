@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dual Coffee Timer</title>
+    <title>Triple Clever Dripper Station</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
         
         body {
             font-family: 'Arial Black', Arial, sans-serif;
-            background: transparent;
+            background: linear-gradient(135deg, #000428 0%, #004e92 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -26,88 +26,6 @@
         }
         
         body::before {
-            display: none;
-        }
-        
-        @keyframes grid-move {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(4px, 4px); }
-        }
-        
-        .recipe {
-            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
-            border: 2px solid #4a90e2;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
-            max-width: 500px;
-            box-shadow: 
-                inset 0 2px 8px rgba(255, 255, 255, 0.1),
-                inset 0 -2px 8px rgba(0, 0, 0, 0.3),
-                0 8px 20px rgba(0, 0, 0, 0.4);
-        }
-        
-        .recipe-header {
-            color: #00ff41;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 1.1em;
-            text-shadow: 
-                0 0 5px #00ff41,
-                0 0 10px #00ff41;
-            font-family: 'Arial Black', Arial, sans-serif;
-        }
-        
-        .recipe-steps {
-            color: #fff;
-            font-size: 1em;
-            line-height: 1.6;
-            padding-left: 20px;
-            font-family: 'Arial', sans-serif;
-        }
-        
-        .recipe-steps li {
-            margin-bottom: 8px;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-        }
-        
-        .recipe-steps .highlight {
-            color: #ff1493;
-            font-weight: bold;
-            text-shadow: 
-                0 0 3px #ff1493,
-                0 0 6px #ff1493;
-        }
-        
-        .app-container {
-            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 
-                inset 0 2px 10px rgba(255, 255, 255, 0.1),
-                inset 0 -2px 10px rgba(0, 0, 0, 0.3),
-                0 10px 30px rgba(0, 0, 0, 0.5),
-                0 0 0 3px #333,
-                0 0 0 6px #555;
-            border: 2px solid #777;
-            max-width: 600px;
-            width: 100%;
-            position: relative;
-        }
-        
-        .app-container::before {
-            content: '';
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            right: 10px;
-            bottom: 10px;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 15px;
-            pointer-events: none;
-        }
-        
-        .app-container::after {
             content: '';
             position: absolute;
             top: 0;
@@ -131,17 +49,21 @@
                 );
             pointer-events: none;
             animation: grid-move 20s linear infinite;
-            border-radius: 20px;
+        }
+        
+        @keyframes grid-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(4px, 4px); }
         }
         
         h1 {
             text-align: center;
-            margin: 20px 0 30px 0;
-            font-size: 2.2em;
+            margin: 20px 0 40px 0;
+            font-size: 2.8em;
             font-weight: 900;
             font-family: 'Arial Black', Arial, sans-serif;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             position: relative;
             color: #ff1493;
             text-shadow: 
@@ -154,206 +76,61 @@
             transform: perspective(300px) rotateX(15deg);
         }
         
-        .timers-container {
+        .station-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 30px;
-            margin-bottom: 20px;
+            max-width: 1200px;
+            width: 100%;
+            margin-bottom: 30px;
         }
         
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }px;
-        }
-        
-        .timer {
-            background: linear-gradient(145deg, #2d1b69 0%, #11998e 100%);
-            border-radius: 15px;
-            padding: 25px;
-            text-align: center;
-            border: 3px solid #4a90e2;
-            transition: all 0.3s ease;
+        .dripper-station {
+            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            border-radius: 20px;
+            padding: 30px 20px;
             box-shadow: 
-                inset 0 2px 8px rgba(255, 255, 255, 0.1),
-                inset 0 -2px 8px rgba(0, 0, 0, 0.3),
-                0 8px 20px rgba(0, 0, 0, 0.4);
+                inset 0 2px 10px rgba(255, 255, 255, 0.1),
+                inset 0 -2px 10px rgba(0, 0, 0, 0.3),
+                0 10px 30px rgba(0, 0, 0, 0.5),
+                0 0 0 3px #333,
+                0 0 0 6px #555;
+            border: 2px solid #777;
             position: relative;
-            overflow: hidden;
+            text-align: center;
         }
         
-        .timer::before {
+        .dripper-station::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(255,255,255,0.2), 
-                transparent);
-            transition: left 0.5s;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            pointer-events: none;
         }
         
-        .timer:hover::before {
-            left: 100%;
-        }
-        
-        .timer.running {
-            background: linear-gradient(145deg, #ff6b35 0%, #f7931e 100%);
-            border-color: #ff8c42;
-            box-shadow: 
-                inset 0 2px 8px rgba(255, 255, 255, 0.2),
-                inset 0 -2px 8px rgba(0, 0, 0, 0.3),
-                0 0 25px rgba(255, 140, 66, 0.6),
-                0 8px 20px rgba(0, 0, 0, 0.4);
-            animation: tetris-pulse 1s ease-in-out infinite alternate;
-        }
-        
-        .timer.finished {
-            background: linear-gradient(145deg, #32cd32 0%, #228b22 100%);
-            border-color: #00ff00;
-            box-shadow: 
-                inset 0 2px 8px rgba(255, 255, 255, 0.2),
-                inset 0 -2px 8px rgba(0, 0, 0, 0.3),
-                0 0 30px rgba(0, 255, 0, 0.8),
-                0 8px 20px rgba(0, 0, 0, 0.4);
-            animation: tetris-complete 1s infinite;
-        }
-        
-        @keyframes tetris-pulse {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.02); }
-        }
-        
-        @keyframes tetris-complete {
-            0%, 100% { 
-                transform: scale(1);
-                filter: brightness(1);
-            }
-            50% { 
-                transform: scale(1.05);
-                filter: brightness(1.2);
-            }
-        }
-        
-        .timer-labels {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        
-        .timer-labels h3 {
-            font-size: 1.6em;
-            margin: 0;
+        .station-title {
+            font-size: 1.8em;
+            margin-bottom: 25px;
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             color: #ff1493;
             text-shadow: 
                 0 0 5px #ff1493,
                 0 0 10px #ff1493,
-                0 0 15px #ff1493,
-                2px 2px 0px rgba(0, 0, 0, 0.8);
+                0 0 15px #ff1493;
             font-family: 'Arial Black', Arial, sans-serif;
-        }
-        
-        .time-input {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .time-input input {
-            background: linear-gradient(145deg, #2c2c54 0%, #40407a 100%);
-            border: 2px solid #706fd3;
-            border-radius: 8px;
-            padding: 10px;
-            width: 60px;
-            text-align: center;
-            color: #fff;
-            font-size: 1.2em;
-            font-weight: bold;
-            font-family: 'Courier New', monospace;
-            box-shadow: 
-                inset 0 2px 4px rgba(0, 0, 0, 0.3),
-                0 2px 8px rgba(112, 111, 211, 0.3);
-        }
-        
-        .time-input input:focus {
-            outline: none;
-            border-color: #00ff41;
-            box-shadow: 
-                inset 0 2px 4px rgba(0, 0, 0, 0.3),
-                0 0 0 3px rgba(0, 255, 65, 0.3),
-                0 0 15px rgba(0, 255, 65, 0.5);
-            color: #00ff41;
-            text-shadow: 0 0 5px #00ff41;
-        }
-        
-        .time-input span {
-            align-self: center;
-            font-size: 1.1em;
-            color: #fff;
-            font-weight: bold;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        
-        .display-time {
-            background: linear-gradient(145deg, #0a0a0a 0%, #1a1a1a 100%);
-            border: 3px solid #00ff41;
-            border-radius: 12px;
-            font-size: 3em;
-            font-weight: 900;
-            margin: 20px 0;
-            padding: 20px;
-            font-family: 'Courier New', monospace;
-            color: #00ff41;
-            text-shadow: 
-                0 0 5px #00ff41,
-                0 0 10px #00ff41,
-                0 0 15px #00ff41;
-            box-shadow: 
-                inset 0 2px 5px rgba(0, 0, 0, 0.8),
-                inset 0 -2px 5px rgba(255, 255, 255, 0.1),
-                0 0 20px rgba(0, 255, 65, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .display-time::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 255, 65, 0.1) 2px,
-                rgba(0, 255, 65, 0.1) 4px
-            );
-            pointer-events: none;
-            animation: scanlines 2s linear infinite;
-        }
-        
-        @keyframes scanlines {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
         }
         
         .controls {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 10px;
+            margin-bottom: 20px;
         }
         
         button {
@@ -362,7 +139,7 @@
             border-radius: 8px;
             color: #fff;
             padding: 8px 16px;
-            font-size: 0.9em;
+            font-size: 0.85em;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -422,138 +199,337 @@
             border-color: #708090;
         }
         
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        .timer-labels {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 10px;
+            text-align: center;
         }
         
-        button:active {
-            transform: translateY(0);
+        .timer-labels h3 {
+            font-size: 1.2em;
+            margin: 0;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ff1493;
+            text-shadow: 
+                0 0 3px #ff1493,
+                0 0 6px #ff1493;
+            font-family: 'Arial Black', Arial, sans-serif;
         }
         
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
         }
         
-        .start-btn {
-            background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+        .timer-input {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            align-items: center;
         }
         
-        .stop-btn {
-            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+        .timer-input input {
+            background: linear-gradient(145deg, #2c2c54 0%, #40407a 100%);
+            border: 2px solid #706fd3;
+            border-radius: 6px;
+            padding: 8px;
+            width: 45px;
+            text-align: center;
+            color: #fff;
+            font-size: 1em;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            box-shadow: 
+                inset 0 2px 4px rgba(0, 0, 0, 0.3),
+                0 2px 8px rgba(112, 111, 211, 0.3);
         }
         
-        .reset-btn {
-            background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+        .timer-input input:focus {
+            outline: none;
+            border-color: #00ff41;
+            box-shadow: 
+                inset 0 2px 4px rgba(0, 0, 0, 0.3),
+                0 0 0 2px rgba(0, 255, 65, 0.3),
+                0 0 10px rgba(0, 255, 65, 0.5);
+            color: #00ff41;
+            text-shadow: 0 0 3px #00ff41;
+        }
+        
+        .timer-input span {
+            align-self: center;
+            font-size: 0.9em;
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .display-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .display-time {
+            background: linear-gradient(145deg, #0a0a0a 0%, #1a1a1a 100%);
+            border: 3px solid #00ff41;
+            border-radius: 12px;
+            font-size: 2.2em;
+            font-weight: 900;
+            padding: 15px 10px;
+            font-family: 'Courier New', monospace;
+            color: #00ff41;
+            text-shadow: 
+                0 0 3px #00ff41,
+                0 0 6px #00ff41,
+                0 0 9px #00ff41;
+            box-shadow: 
+                inset 0 2px 5px rgba(0, 0, 0, 0.8),
+                inset 0 -2px 5px rgba(255, 255, 255, 0.1),
+                0 0 15px rgba(0, 255, 65, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .display-time::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 255, 65, 0.1) 2px,
+                rgba(0, 255, 65, 0.1) 4px
+            );
+            pointer-events: none;
+            animation: scanlines 2s linear infinite;
+        }
+        
+        @keyframes scanlines {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        
+        .timer.running .display-time {
+            border-color: #ff8c42;
+            color: #ff8c42;
+            text-shadow: 
+                0 0 3px #ff8c42,
+                0 0 6px #ff8c42,
+                0 0 9px #ff8c42;
+            box-shadow: 
+                inset 0 2px 5px rgba(0, 0, 0, 0.8),
+                inset 0 -2px 5px rgba(255, 255, 255, 0.1),
+                0 0 20px rgba(255, 140, 66, 0.6);
+            animation: pulse-orange 1.5s ease-in-out infinite alternate;
+        }
+        
+        .timer.finished .display-time {
+            border-color: #32cd32;
+            color: #32cd32;
+            text-shadow: 
+                0 0 5px #32cd32,
+                0 0 10px #32cd32,
+                0 0 15px #32cd32;
+            box-shadow: 
+                inset 0 2px 5px rgba(0, 0, 0, 0.8),
+                inset 0 -2px 5px rgba(255, 255, 255, 0.1),
+                0 0 25px rgba(50, 205, 50, 0.8);
+            animation: pulse-green 1s infinite;
+        }
+        
+        @keyframes pulse-orange {
+            0% { filter: brightness(1); }
+            100% { filter: brightness(1.2); }
+        }
+        
+        @keyframes pulse-green {
+            0%, 100% { 
+                filter: brightness(1);
+                transform: scale(1);
+            }
+            50% { 
+                filter: brightness(1.3);
+                transform: scale(1.02);
+            }
+        }
+        
+
+        
+        @media (max-width: 1024px) {
+            .station-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 2.2em;
+            }
+            
+            .dripper-station {
+                padding: 25px 15px;
+            }
         }
         
         @media (max-width: 768px) {
             .timer-labels {
                 grid-template-columns: 1fr;
-                gap: 15px;
-                margin-bottom: 10px;
+                gap: 10px;
             }
             
             .input-row {
                 grid-template-columns: 1fr;
-                gap: 15px;
+                gap: 10px;
             }
             
             .display-row {
                 grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            
-            .app-container {
-                padding: 20px;
-                margin: 10px;
-            }
-            
-            .controls {
-                flex-direction: row;
                 gap: 10px;
             }
             
-            button {
-                padding: 8px 12px;
-                margin: 0;
-                font-size: 0.8em;
-            }
-            
-            h1 {
-                font-size: 1.8em;
-                margin: 10px 0 20px 0;
-            }
-            
-            .recipe {
-                padding: 20px;
-                margin-bottom: 20px;
-            }
-            
             .display-time {
-                font-size: 2.2em;
-                padding: 15px;
+                font-size: 1.8em;
             }
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <h1>CLEVER DRIPPER TIMER</h1>
-        
-        <div class="recipe">
-            <div class="recipe-header">
-                <strong>300g vann / 18g kaffe / på finsiden av medium kverningsgrad</strong>
-            </div>
-            <ol class="recipe-steps">
-                <li>Hell opp 300g kokende vann</li>
-                <li>Hell oppi kaffen og fukt alt med en skje raskt</li>
-                <li>Start timer</li>
-                <li><span class="highlight">2 minutter:</span> Rør rundt for å la gruten synke til bunnen</li>
-                <li><span class="highlight">3 minutter:</span> Sett Clever Dripper på en beholder og kos deg</li>
-            </ol>
-        </div>
-        </div>
-        
-        <div class="timers-container">
-            <div class="timer" id="timer1">
-                <div class="time-input">
-                    <input type="number" id="min1" min="0" max="59" value="2" />
-                    <span>min</span>
-                    <input type="number" id="sec1" min="0" max="59" value="0" />
-                    <span>sek</span>
-                </div>
-                <div class="display-time" id="display1">02:00</div>
+    <h1>☕ TRIPLE DRIPPER STATION ☕</h1>
+    
+    <div class="station-container">
+        <!-- Station 1 -->
+        <div class="dripper-station">
+            <div class="station-title">DRIPPER 1</div>
+            
+            <div class="controls">
+                <button class="start-btn" onclick="startStation(1)">Start</button>
+                <button class="stop-btn" onclick="stopStation(1)">Stopp</button>
+                <button class="reset-btn" onclick="resetStation(1)">Reset</button>
             </div>
             
-            <div class="timer" id="timer2">
-                <div class="time-input">
-                    <input type="number" id="min2" min="0" max="59" value="3" />
+            <div class="timer-labels">
+                <h3>SWIRL</h3>
+                <h3>DRAIN</h3>
+            </div>
+            
+            <div class="input-row">
+                <div class="timer-input">
+                    <input type="number" id="min1_1" min="0" max="59" value="2" />
                     <span>min</span>
-                    <input type="number" id="sec2" min="0" max="59" value="0" />
+                    <input type="number" id="sec1_1" min="0" max="59" value="0" />
                     <span>sek</span>
                 </div>
-                <div class="display-time" id="display2">03:00</div>
+                <div class="timer-input">
+                    <input type="number" id="min2_1" min="0" max="59" value="3" />
+                    <span>min</span>
+                    <input type="number" id="sec2_1" min="0" max="59" value="0" />
+                    <span>sek</span>
+                </div>
+            </div>
+            
+            <div class="display-row">
+                <div class="display-time timer" id="display1_1">02:00</div>
+                <div class="display-time timer" id="display2_1">03:00</div>
             </div>
         </div>
-        
-        <div class="controls">
-            <button class="start-btn" onclick="startTimers()">Start Begge</button>
-            <button class="stop-btn" onclick="stopTimers()">Stopp</button>
-            <button class="reset-btn" onclick="resetTimers()">Reset</button>
+
+        <!-- Station 2 -->
+        <div class="dripper-station">
+            <div class="station-title">DRIPPER 2</div>
+            
+            <div class="controls">
+                <button class="start-btn" onclick="startStation(2)">Start</button>
+                <button class="stop-btn" onclick="stopStation(2)">Stopp</button>
+                <button class="reset-btn" onclick="resetStation(2)">Reset</button>
+            </div>
+            
+            <div class="timer-labels">
+                <h3>SWIRL</h3>
+                <h3>DRAIN</h3>
+            </div>
+            
+            <div class="input-row">
+                <div class="timer-input">
+                    <input type="number" id="min1_2" min="0" max="59" value="2" />
+                    <span>min</span>
+                    <input type="number" id="sec1_2" min="0" max="59" value="0" />
+                    <span>sek</span>
+                </div>
+                <div class="timer-input">
+                    <input type="number" id="min2_2" min="0" max="59" value="3" />
+                    <span>min</span>
+                    <input type="number" id="sec2_2" min="0" max="59" value="0" />
+                    <span>sek</span>
+                </div>
+            </div>
+            
+            <div class="display-row">
+                <div class="display-time timer" id="display1_2">02:00</div>
+                <div class="display-time timer" id="display2_2">03:00</div>
+            </div>
         </div>
+
+        <!-- Station 3 -->
+        <div class="dripper-station">
+            <div class="station-title">DRIPPER 3</div>
+            
+            <div class="controls">
+                <button class="start-btn" onclick="startStation(3)">Start</button>
+                <button class="stop-btn" onclick="stopStation(3)">Stopp</button>
+                <button class="reset-btn" onclick="resetStation(3)">Reset</button>
+            </div>
+            
+            <div class="timer-labels">
+                <h3>SWIRL</h3>
+                <h3>DRAIN</h3>
+            </div>
+            
+            <div class="input-row">
+                <div class="timer-input">
+                    <input type="number" id="min1_3" min="0" max="59" value="2" />
+                    <span>min</span>
+                    <input type="number" id="sec1_3" min="0" max="59" value="0" />
+                    <span>sek</span>
+                </div>
+                <div class="timer-input">
+                    <input type="number" id="min2_3" min="0" max="59" value="3" />
+                    <span>min</span>
+                    <input type="number" id="sec2_3" min="0" max="59" value="0" />
+                    <span>sek</span>
+                </div>
+            </div>
+            
+            <div class="display-row">
+                <div class="display-time timer" id="display1_3">02:00</div>
+                <div class="display-time timer" id="display2_3">03:00</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="master-controls">
+        <button class="start-btn" onclick="startAllStations()">START ALLE</button>
+        <button class="stop-btn" onclick="stopAllStations()">STOPP ALLE</button>
+        <button class="reset-btn" onclick="resetAllStations()">RESET ALLE</button>
     </div>
 
     <script>
-        let timer1Interval = null;
-        let timer2Interval = null;
-        let timer1Time = 0;
-        let timer2Time = 0;
-        let isRunning = false;
+        // Station state management
+        const stations = {
+            1: { timer1: null, timer2: null, time1: 0, time2: 0, running: false },
+            2: { timer1: null, timer2: null, time1: 0, time2: 0, running: false },
+            3: { timer1: null, timer2: null, time1: 0, time2: 0, running: false }
+        };
         
-        // Create audio context and generate pleasant notification sounds
         let audioContext = null;
         
         function initAudio() {
@@ -562,36 +538,44 @@
             }
         }
         
-        function playNotificationSound(frequency = 800, duration = 1000) {
+        // Soft, pleasant notification sound
+        function playNotificationSound(stationId, timerType) {
             initAudio();
             
-            // Create a pleasant multi-tone notification
+            // Create a warm, coffee-shop ambient chime
             const oscillator1 = audioContext.createOscillator();
             const oscillator2 = audioContext.createOscillator();
+            const oscillator3 = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
             
             oscillator1.connect(gainNode);
             oscillator2.connect(gainNode);
+            oscillator3.connect(gainNode);
             gainNode.connect(audioContext.destination);
             
-            // Set frequencies for a pleasant chord
-            oscillator1.frequency.setValueAtTime(frequency, audioContext.currentTime);
-            oscillator2.frequency.setValueAtTime(frequency * 1.25, audioContext.currentTime);
+            // Warm, coffee-shop frequencies
+            const baseFreq = timerType === 'swirl' ? 523.25 : 440; // C5 for swirl, A4 for drain
+            oscillator1.frequency.setValueAtTime(baseFreq, audioContext.currentTime);
+            oscillator2.frequency.setValueAtTime(baseFreq * 1.25, audioContext.currentTime); // Perfect fifth
+            oscillator3.frequency.setValueAtTime(baseFreq * 1.5, audioContext.currentTime); // Octave
             
-            // Set waveforms
+            // Soft sine waves for warmth
             oscillator1.type = 'sine';
             oscillator2.type = 'sine';
+            oscillator3.type = 'sine';
             
-            // Create fade in/out envelope
+            // Very gentle envelope
             gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-            gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.05);
-            gainNode.gain.exponentialRampToValueAtTime(0.1, audioContext.currentTime + duration/1000 - 0.05);
-            gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + duration/1000);
+            gainNode.gain.linearRampToValueAtTime(0.15, audioContext.currentTime + 0.1);
+            gainNode.gain.exponentialRampToValueAtTime(0.05, audioContext.currentTime + 1.5);
+            gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 2);
             
             oscillator1.start(audioContext.currentTime);
             oscillator2.start(audioContext.currentTime);
-            oscillator1.stop(audioContext.currentTime + duration/1000);
-            oscillator2.stop(audioContext.currentTime + duration/1000);
+            oscillator3.start(audioContext.currentTime);
+            oscillator1.stop(audioContext.currentTime + 2);
+            oscillator2.stop(audioContext.currentTime + 2);
+            oscillator3.stop(audioContext.currentTime + 2);
         }
         
         function formatTime(seconds) {
@@ -600,113 +584,127 @@
             return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
         }
         
-        function updateDisplay() {
-            document.getElementById('display1').textContent = formatTime(timer1Time);
-            document.getElementById('display2').textContent = formatTime(timer2Time);
+        function updateDisplay(stationId) {
+            const station = stations[stationId];
+            document.getElementById(`display1_${stationId}`).textContent = formatTime(station.time1);
+            document.getElementById(`display2_${stationId}`).textContent = formatTime(station.time2);
         }
         
-        function updateInputDisplays() {
-            const min1 = parseInt(document.getElementById('min1').value) || 0;
-            const sec1 = parseInt(document.getElementById('sec1').value) || 0;
-            const min2 = parseInt(document.getElementById('min2').value) || 0;
-            const sec2 = parseInt(document.getElementById('sec2').value) || 0;
+        function updateInputDisplays(stationId) {
+            const min1 = parseInt(document.getElementById(`min1_${stationId}`).value) || 0;
+            const sec1 = parseInt(document.getElementById(`sec1_${stationId}`).value) || 0;
+            const min2 = parseInt(document.getElementById(`min2_${stationId}`).value) || 0;
+            const sec2 = parseInt(document.getElementById(`sec2_${stationId}`).value) || 0;
             
-            timer1Time = min1 * 60 + sec1;
-            timer2Time = min2 * 60 + sec2;
+            stations[stationId].time1 = min1 * 60 + sec1;
+            stations[stationId].time2 = min2 * 60 + sec2;
             
-            updateDisplay();
+            updateDisplay(stationId);
         }
         
-        function startTimers() {
-            if (isRunning) return;
+        function startStation(stationId) {
+            const station = stations[stationId];
+            if (station.running) return;
             
-            // Initialize audio on user interaction
             initAudio();
+            updateInputDisplays(stationId);
             
-            updateInputDisplays();
+            if (station.time1 <= 0 && station.time2 <= 0) return;
             
-            if (timer1Time <= 0 && timer2Time <= 0) return;
+            station.running = true;
             
-            isRunning = true;
-            document.querySelector('.start-btn').disabled = true;
-            
-            // Add running class to active timers
-            if (timer1Time > 0) {
-                document.getElementById('timer1').classList.add('running');
+            // Add running class to displays
+            if (station.time1 > 0) {
+                document.getElementById(`display1_${stationId}`).classList.add('running');
             }
-            if (timer2Time > 0) {
-                document.getElementById('timer2').classList.add('running');
+            if (station.time2 > 0) {
+                document.getElementById(`display2_${stationId}`).classList.add('running');
             }
             
-            // Timer 1
-            if (timer1Time > 0) {
-                timer1Interval = setInterval(() => {
-                    timer1Time--;
-                    updateDisplay();
+            // Timer 1 (Swirl)
+            if (station.time1 > 0) {
+                station.timer1 = setInterval(() => {
+                    station.time1--;
+                    updateDisplay(stationId);
                     
-                    if (timer1Time <= 0) {
-                        clearInterval(timer1Interval);
-                        document.getElementById('timer1').classList.remove('running');
-                        document.getElementById('timer1').classList.add('finished');
-                        playNotificationSound(880, 1500); // Higher pitch for timer 1
+                    if (station.time1 <= 0) {
+                        clearInterval(station.timer1);
+                        document.getElementById(`display1_${stationId}`).classList.remove('running');
+                        document.getElementById(`display1_${stationId}`).classList.add('finished');
+                        playNotificationSound(stationId, 'swirl');
                     }
                 }, 1000);
             }
             
-            // Timer 2
-            if (timer2Time > 0) {
-                timer2Interval = setInterval(() => {
-                    timer2Time--;
-                    updateDisplay();
+            // Timer 2 (Drain)
+            if (station.time2 > 0) {
+                station.timer2 = setInterval(() => {
+                    station.time2--;
+                    updateDisplay(stationId);
                     
-                    if (timer2Time <= 0) {
-                        clearInterval(timer2Interval);
-                        document.getElementById('timer2').classList.remove('running');
-                        document.getElementById('timer2').classList.add('finished');
-                        playNotificationSound(660, 1500); // Lower pitch for timer 2
+                    if (station.time2 <= 0) {
+                        clearInterval(station.timer2);
+                        document.getElementById(`display2_${stationId}`).classList.remove('running');
+                        document.getElementById(`display2_${stationId}`).classList.add('finished');
+                        playNotificationSound(stationId, 'drain');
                     }
                 }, 1000);
             }
         }
         
-        function stopTimers() {
-            clearInterval(timer1Interval);
-            clearInterval(timer2Interval);
-            isRunning = false;
-            document.querySelector('.start-btn').disabled = false;
+        function stopStation(stationId) {
+            const station = stations[stationId];
+            clearInterval(station.timer1);
+            clearInterval(station.timer2);
+            station.running = false;
             
             // Remove running classes
-            document.getElementById('timer1').classList.remove('running');
-            document.getElementById('timer2').classList.remove('running');
+            document.getElementById(`display1_${stationId}`).classList.remove('running');
+            document.getElementById(`display2_${stationId}`).classList.remove('running');
         }
         
-        function resetTimers() {
-            stopTimers();
+        function resetStation(stationId) {
+            stopStation(stationId);
             
             // Remove all classes
-            document.getElementById('timer1').className = 'timer';
-            document.getElementById('timer2').className = 'timer';
+            document.getElementById(`display1_${stationId}`).className = 'display-time timer';
+            document.getElementById(`display2_${stationId}`).className = 'display-time timer';
             
             // Reset to input values
-            updateInputDisplays();
+            updateInputDisplays(stationId);
+        }
+        
+        function startAllStations() {
+            startStation(1);
+            startStation(2);
+            startStation(3);
+        }
+        
+        function stopAllStations() {
+            stopStation(1);
+            stopStation(2);
+            stopStation(3);
+        }
+        
+        function resetAllStations() {
+            resetStation(1);
+            resetStation(2);
+            resetStation(3);
         }
         
         // Event listeners for input changes
-        document.getElementById('min1').addEventListener('input', () => {
-            if (!isRunning) updateInputDisplays();
-        });
-        document.getElementById('sec1').addEventListener('input', () => {
-            if (!isRunning) updateInputDisplays();
-        });
-        document.getElementById('min2').addEventListener('input', () => {
-            if (!isRunning) updateInputDisplays();
-        });
-        document.getElementById('sec2').addEventListener('input', () => {
-            if (!isRunning) updateInputDisplays();
-        });
+        for (let stationId = 1; stationId <= 3; stationId++) {
+            ['min1', 'sec1', 'min2', 'sec2'].forEach(inputType => {
+                document.getElementById(`${inputType}_${stationId}`).addEventListener('input', () => {
+                    if (!stations[stationId].running) updateInputDisplays(stationId);
+                });
+            });
+        }
         
-        // Initialize display
-        updateInputDisplays();
+        // Initialize displays
+        for (let stationId = 1; stationId <= 3; stationId++) {
+            updateInputDisplays(stationId);
+        }
     </script>
 </body>
 </html>
