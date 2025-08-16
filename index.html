@@ -13,7 +13,7 @@
         
         body {
             font-family: 'Arial Black', Arial, sans-serif;
-            background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+            background: transparent;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -26,29 +26,7 @@
         }
         
         body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                repeating-linear-gradient(
-                    90deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(255,255,255,0.03) 2px,
-                    rgba(255,255,255,0.03) 4px
-                ),
-                repeating-linear-gradient(
-                    0deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(255,255,255,0.03) 2px,
-                    rgba(255,255,255,0.03) 4px
-                );
-            pointer-events: none;
-            animation: grid-move 20s linear infinite;
+            display: none;
         }
         
         @keyframes grid-move {
@@ -451,8 +429,14 @@
                 margin-bottom: 10px;
             }
             
-            .timers-container {
+            .input-row {
                 grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .display-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
             }
             
             .app-container {
