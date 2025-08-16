@@ -93,7 +93,7 @@
                 0 0 0 3px #333,
                 0 0 0 6px #555;
             border: 2px solid #777;
-            max-width: 800px;
+            max-width: 1200px;
             width: 100%;
             position: relative;
         }
@@ -137,17 +137,60 @@
             border-radius: 20px;
         }
         
+        .recipe-wrapper {
+            position: relative;
+            margin: 0 auto 30px auto;
+            max-width: 500px;
+        }
+        
         .recipe {
             background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
             border: 2px solid #4a90e2;
             border-radius: 15px;
             padding: 25px;
-            margin: 0 auto 30px auto;
-            max-width: 500px;
             box-shadow: 
                 inset 0 2px 8px rgba(255, 255, 255, 0.1),
                 inset 0 -2px 8px rgba(0, 0, 0, 0.3),
                 0 8px 20px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .recipe.hidden {
+            height: 8px;
+            overflow: hidden;
+            padding: 0;
+            border: 2px solid #4a90e2;
+            background: #4a90e2;
+        }
+        
+        .recipe.hidden .recipe-header,
+        .recipe.hidden .recipe-steps {
+            display: none;
+        }
+        
+        .recipe-toggle-btn {
+            background: linear-gradient(145deg, #4a90e2 0%, #357abd 100%);
+            border: 2px solid #5ba3f5;
+            border-radius: 6px;
+            color: #fff;
+            padding: 6px 12px;
+            font-size: 0.65em;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: 'Arial Black', Arial, sans-serif;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3), 0 0 12px rgba(74, 144, 226, 0.3);
+            position: absolute;
+            top: -30px;
+            right: 0px;
+            transition: all 0.3s ease;
+            z-index: 50;
+            white-space: nowrap;
+        }
+        
+        .recipe-toggle-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4), 0 0 15px rgba(74, 144, 226, 0.4);
         }
         
         .recipe-header {
@@ -187,7 +230,7 @@
             display: none;
             justify-content: center;
             gap: 20px;
-            margin-top: 20px;
+            margin-bottom: 40px;
             order: 2;
         }
         
@@ -222,16 +265,16 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 20px;
+            gap: 30px;
             width: 100%;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
         
         /* Individual timer stations */
         .dripper-station {
             background: linear-gradient(145deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             border-radius: 15px;
-            padding: 20px 15px;
+            padding: 25px 20px;
             box-shadow: 
                 inset 0 2px 8px rgba(255, 255, 255, 0.1),
                 inset 0 -2px 8px rgba(0, 0, 0, 0.3),
@@ -242,7 +285,7 @@
             position: relative;
             text-align: center;
             transition: all 0.8s ease;
-            width: 300px;
+            width: 320px;
             flex-shrink: 0;
         }
         
@@ -307,7 +350,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             position: relative;
         }
         
@@ -332,8 +375,8 @@
         .controls {
             display: flex;
             justify-content: center;
-            gap: 8px;
-            margin-bottom: 15px;
+            gap: 10px;
+            margin-bottom: 20px;
         }
         
         button {
@@ -405,8 +448,8 @@
         .timer-labels {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 10px;
+            gap: 20px;
+            margin-bottom: 15px;
             text-align: center;
         }
         
@@ -426,8 +469,8 @@
         .input-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 15px;
+            gap: 20px;
+            margin-bottom: 20px;
         }
         
         .timer-input {
@@ -475,7 +518,7 @@
         .display-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 20px;
             margin-bottom: 20px;
         }
         
@@ -644,17 +687,22 @@
     <h1>CLEVER DRIPPER TIMER</h1>
     
     <div class="app-container">
-        <div class="recipe">
-            <div class="recipe-header">
-                <strong>300g vann / 18g kaffe / på finsiden av medium kverningsgrad</strong>
+        <div class="recipe-wrapper">
+            <button class="recipe-toggle-btn" onclick="toggleRecipe()" id="recipe-toggle">
+                SKJUL OPPSKRIFT
+            </button>
+            <div class="recipe" id="recipe-box">
+                <div class="recipe-header">
+                    <strong>300g vann / 18g kaffe / på finsiden av medium kverningsgrad</strong>
+                </div>
+                <ol class="recipe-steps">
+                    <li>Hell opp 300g kokende vann</li>
+                    <li>Hell oppi kaffen og fukt alt med en skje raskt</li>
+                    <li>Start timer</li>
+                    <li><span class="highlight">2 minutter: Rør(Swirl)</span> rundt for å la gruten synke til bunnen</li>
+                    <li><span class="highlight">3 minutter (Drain):</span> Sett Clever Dripper på en beholder og vent på kos!</li>
+                </ol>
             </div>
-            <ol class="recipe-steps">
-                <li>Hell opp 300g kokende vann</li>
-                <li>Hell oppi kaffen og fukt alt med en skje raskt</li>
-                <li>Start timer</li>
-                <li><span class="highlight">2 minutter: Rør(Swirl)</span> rundt for å la gruten synke til bunnen</li>
-                <li><span class="highlight">3 minutter (Drain):</span> Sett Clever Dripper på en beholder og vent på kos!</li>
-            </ol>
         </div>
         
         <!-- Master controls (only shown when 2+ timers) -->
@@ -681,6 +729,20 @@
         let timerCount = 0;
         let timers = {};
         let audioContext = null;
+        
+        // Recipe toggle functionality
+        function toggleRecipe() {
+            const recipeBox = document.getElementById('recipe-box');
+            const toggleBtn = document.getElementById('recipe-toggle');
+            
+            if (recipeBox.classList.contains('hidden')) {
+                recipeBox.classList.remove('hidden');
+                toggleBtn.textContent = 'SKJUL OPPSKRIFT';
+            } else {
+                recipeBox.classList.add('hidden');
+                toggleBtn.textContent = 'VIS OPPSKRIFT';
+            }
+        }
         
         function initAudio() {
             if (!audioContext) {
