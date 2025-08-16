@@ -753,47 +753,54 @@
         function playNotificationSound(stationId, timerType) {
             initAudio();
             
-            // Rhythm: ggg e-c gg fff-d
-            const notes = [
-                { freq: 392.00, duration: 0.9 }, // ggg (G held even longer)
+            // Rhythm: g.e-c.gg..fff-d
+            const sequence = [
+                { freq: 392.00, duration: 0.3 }, // g (single G)
+                { freq: null, duration: 0.1 },   // . (short pause)
                 { freq: 329.63, duration: 0.2 }, // e (quick)
                 { freq: 261.63, duration: 0.2 }, // c (quick, right after e)
-                { freq: 392.00, duration: 0.6 }, // gg (G held longer)
-                { freq: 349.23, duration: 0.9 }, // fff (F held even longer)
-                { freq: 293.66, duration: 0.3 }, // d (quick ending)
+                { freq: null, duration: 0.1 },   // . (short pause)
+                { freq: 392.00, duration: 0.4 }, // gg (G held longer)
+                { freq: null, duration: 0.2 },   // .. (medium pause)
+                { freq: 349.23, duration: 0.6 }, // fff (F held longer, quick transition to D)
+                { freq: 293.66, duration: 0.2 }, // d (quick ending)
             ];
             
             let currentTime = audioContext.currentTime;
             
-            // Play each note in sequence with the specified rhythm
-            notes.forEach((note, index) => {
-                const noteOsc = audioContext.createOscillator();
-                const noteGain = audioContext.createGain();
-                const noteFilter = audioContext.createBiquadFilter();
+            // Play each note/pause in sequence
+            sequence.forEach((item, index) => {
+                if (item.freq) {
+                    // Play note
+                    const noteOsc = audioContext.createOscillator();
+                    const noteGain = audioContext.createGain();
+                    const noteFilter = audioContext.createBiquadFilter();
+                    
+                    noteOsc.connect(noteFilter);
+                    noteFilter.connect(noteGain);
+                    noteGain.connect(audioContext.destination);
+                    
+                    // Clean sine wave for clear melody
+                    noteOsc.type = 'sine';
+                    
+                    // Soft filter
+                    noteFilter.type = 'lowpass';
+                    noteFilter.frequency.setValueAtTime(1500, currentTime);
+                    
+                    noteOsc.frequency.setValueAtTime(item.freq, currentTime);
+                    
+                    // Gentle envelope for each note
+                    noteGain.gain.setValueAtTime(0, currentTime);
+                    noteGain.gain.linearRampToValueAtTime(0.1, currentTime + 0.05);
+                    noteGain.gain.linearRampToValueAtTime(0.07, currentTime + item.duration * 0.8);
+                    noteGain.gain.exponentialRampToValueAtTime(0.001, currentTime + item.duration);
+                    
+                    noteOsc.start(currentTime);
+                    noteOsc.stop(currentTime + item.duration);
+                }
+                // If freq is null, it's a pause - just wait
                 
-                noteOsc.connect(noteFilter);
-                noteFilter.connect(noteGain);
-                noteGain.connect(audioContext.destination);
-                
-                // Clean sine wave for clear melody
-                noteOsc.type = 'sine';
-                
-                // Soft filter
-                noteFilter.type = 'lowpass';
-                noteFilter.frequency.setValueAtTime(1500, currentTime);
-                
-                noteOsc.frequency.setValueAtTime(note.freq, currentTime);
-                
-                // Gentle envelope for each note
-                noteGain.gain.setValueAtTime(0, currentTime);
-                noteGain.gain.linearRampToValueAtTime(0.1, currentTime + 0.05);
-                noteGain.gain.linearRampToValueAtTime(0.07, currentTime + note.duration * 0.8);
-                noteGain.gain.exponentialRampToValueAtTime(0.001, currentTime + note.duration);
-                
-                noteOsc.start(currentTime);
-                noteOsc.stop(currentTime + note.duration);
-                
-                currentTime += note.duration;
+                currentTime += item.duration;
             });
         }
         
