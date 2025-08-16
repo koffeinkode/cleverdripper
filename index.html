@@ -753,36 +753,48 @@
         function playNotificationSound(stationId, timerType) {
             initAudio();
             
-            const oscillator1 = audioContext.createOscillator();
-            const oscillator2 = audioContext.createOscillator();
-            const oscillator3 = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
+            // Rhythm: ggg e-c gg fff-d
+            const notes = [
+                { freq: 392.00, duration: 0.9 }, // ggg (G held even longer)
+                { freq: 329.63, duration: 0.2 }, // e (quick)
+                { freq: 261.63, duration: 0.2 }, // c (quick, right after e)
+                { freq: 392.00, duration: 0.6 }, // gg (G held longer)
+                { freq: 349.23, duration: 0.9 }, // fff (F held even longer)
+                { freq: 293.66, duration: 0.3 }, // d (quick ending)
+            ];
             
-            oscillator1.connect(gainNode);
-            oscillator2.connect(gainNode);
-            oscillator3.connect(gainNode);
-            gainNode.connect(audioContext.destination);
+            let currentTime = audioContext.currentTime;
             
-            const baseFreq = timerType === 'swirl' ? 523.25 : 440;
-            oscillator1.frequency.setValueAtTime(baseFreq, audioContext.currentTime);
-            oscillator2.frequency.setValueAtTime(baseFreq * 1.25, audioContext.currentTime);
-            oscillator3.frequency.setValueAtTime(baseFreq * 1.5, audioContext.currentTime);
-            
-            oscillator1.type = 'sine';
-            oscillator2.type = 'sine';
-            oscillator3.type = 'sine';
-            
-            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-            gainNode.gain.linearRampToValueAtTime(0.15, audioContext.currentTime + 0.1);
-            gainNode.gain.exponentialRampToValueAtTime(0.05, audioContext.currentTime + 1.5);
-            gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 2);
-            
-            oscillator1.start(audioContext.currentTime);
-            oscillator2.start(audioContext.currentTime);
-            oscillator3.start(audioContext.currentTime);
-            oscillator1.stop(audioContext.currentTime + 2);
-            oscillator2.stop(audioContext.currentTime + 2);
-            oscillator3.stop(audioContext.currentTime + 2);
+            // Play each note in sequence with the specified rhythm
+            notes.forEach((note, index) => {
+                const noteOsc = audioContext.createOscillator();
+                const noteGain = audioContext.createGain();
+                const noteFilter = audioContext.createBiquadFilter();
+                
+                noteOsc.connect(noteFilter);
+                noteFilter.connect(noteGain);
+                noteGain.connect(audioContext.destination);
+                
+                // Clean sine wave for clear melody
+                noteOsc.type = 'sine';
+                
+                // Soft filter
+                noteFilter.type = 'lowpass';
+                noteFilter.frequency.setValueAtTime(1500, currentTime);
+                
+                noteOsc.frequency.setValueAtTime(note.freq, currentTime);
+                
+                // Gentle envelope for each note
+                noteGain.gain.setValueAtTime(0, currentTime);
+                noteGain.gain.linearRampToValueAtTime(0.1, currentTime + 0.05);
+                noteGain.gain.linearRampToValueAtTime(0.07, currentTime + note.duration * 0.8);
+                noteGain.gain.exponentialRampToValueAtTime(0.001, currentTime + note.duration);
+                
+                noteOsc.start(currentTime);
+                noteOsc.stop(currentTime + note.duration);
+                
+                currentTime += note.duration;
+            });
         }
         
         function formatTime(seconds) {
