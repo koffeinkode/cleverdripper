@@ -187,7 +187,8 @@
             display: none;
             justify-content: center;
             gap: 20px;
-            margin-bottom: 30px;
+            margin-top: 20px;
+            order: 2;
         }
         
         .master-controls button {
@@ -219,9 +220,11 @@
         /* Dynamic timer container */
         #timers-container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
             width: 100%;
+            margin-bottom: 30px;
         }
         
         /* Individual timer stations */
@@ -229,7 +232,6 @@
             background: linear-gradient(145deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             border-radius: 15px;
             padding: 20px 15px;
-            margin-bottom: 20px;
             box-shadow: 
                 inset 0 2px 8px rgba(255, 255, 255, 0.1),
                 inset 0 -2px 8px rgba(0, 0, 0, 0.3),
@@ -240,8 +242,8 @@
             position: relative;
             text-align: center;
             transition: all 0.8s ease;
-            width: 100%;
-            max-width: 500px;
+            width: 300px;
+            flex-shrink: 0;
         }
         
         .dripper-station::before {
@@ -576,10 +578,10 @@
             text-transform: uppercase;
             font-family: 'Arial Black', Arial, sans-serif;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), 0 0 15px rgba(102, 126, 234, 0.3);
-            margin-top: 30px;
             display: block;
             margin-left: auto;
             margin-right: auto;
+            order: 1;
         }
         
         .add-timer-btn span {
@@ -588,7 +590,25 @@
             text-shadow: 0 0 5px #fff, 0 0 10px #fff;
         }
         
+        .controls-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
         @media (max-width: 768px) {
+            #timers-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .dripper-station {
+                width: 100%;
+                max-width: 350px;
+            }
+            
             .timer-labels {
                 grid-template-columns: 1fr;
                 gap: 10px;
@@ -632,8 +652,8 @@
                 <li>Hell opp 300g kokende vann</li>
                 <li>Hell oppi kaffen og fukt alt med en skje raskt</li>
                 <li>Start timer</li>
-                <li><span class="highlight">2 minutter:</span> Rør rundt for å la gruten synke til bunnen</li>
-                <li><span class="highlight">3 minutter:</span> Sett Clever Dripper på en beholder og kos deg</li>
+                <li><span class="highlight">2 minutter: Rør(Swirl)</span> rundt for å la gruten synke til bunnen</li>
+                <li><span class="highlight">3 minutter (Drain):</span> Sett Clever Dripper på en beholder og vent på kos!</li>
             </ol>
         </div>
         
@@ -647,10 +667,13 @@
         <!-- Dynamic timer container -->
         <div id="timers-container"></div>
         
-        <!-- Add timer button -->
-        <button class="add-timer-btn" onclick="addTimer()">
-            <span>+</span> LEGG TIL TIMER
-        </button>
+        <!-- Controls wrapper for buttons -->
+        <div class="controls-wrapper">
+            <!-- Add timer button -->
+            <button class="add-timer-btn" onclick="addTimer()">
+                <span>+</span> LEGG TIL TIMER
+            </button>
+        </div>
     </div>
 
     <script>
