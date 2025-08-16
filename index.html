@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Triple Clever Dripper Station</title>
+    <title>Clever Dripper Timer</title>
     <style>
         * {
             margin: 0;
@@ -58,12 +58,12 @@
         
         h1 {
             text-align: center;
-            margin: 15px 0 25px 0;
-            font-size: 2.4em;
+            margin: 20px 0 30px 0;
+            font-size: 2.5em;
             font-weight: 900;
             font-family: 'Arial Black', Arial, sans-serif;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             position: relative;
             color: #ff1493;
             text-shadow: 
@@ -73,22 +73,163 @@
                 0 0 20px #ff1493,
                 2px 2px 0px rgba(0,0,0,0.8),
                 4px 4px 0px rgba(0,0,0,0.6);
+            animation: tetris-shimmer 3s linear infinite;
             transform: perspective(300px) rotateX(15deg);
         }
         
-        .station-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            max-width: 1200px;
-            width: 100%;
-            margin-bottom: 20px;
+        @keyframes tetris-shimmer {
+            0% { background-position: 200% 0%; }
+            100% { background-position: -200% 0%; }
         }
         
+        .app-container {
+            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 
+                inset 0 2px 10px rgba(255, 255, 255, 0.1),
+                inset 0 -2px 10px rgba(0, 0, 0, 0.3),
+                0 10px 30px rgba(0, 0, 0, 0.5),
+                0 0 0 3px #333,
+                0 0 0 6px #555;
+            border: 2px solid #777;
+            max-width: 800px;
+            width: 100%;
+            position: relative;
+        }
+        
+        .app-container::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            pointer-events: none;
+        }
+        
+        .app-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255,255,255,0.03) 2px,
+                    rgba(255,255,255,0.03) 4px
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255,255,255,0.03) 2px,
+                    rgba(255,255,255,0.03) 4px
+                );
+            pointer-events: none;
+            animation: grid-move 20s linear infinite;
+            border-radius: 20px;
+        }
+        
+        .recipe {
+            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+            border: 2px solid #4a90e2;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 0 auto 30px auto;
+            max-width: 500px;
+            box-shadow: 
+                inset 0 2px 8px rgba(255, 255, 255, 0.1),
+                inset 0 -2px 8px rgba(0, 0, 0, 0.3),
+                0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .recipe-header {
+            color: #00ff41;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            text-shadow: 
+                0 0 5px #00ff41,
+                0 0 10px #00ff41;
+            font-family: 'Arial Black', Arial, sans-serif;
+        }
+        
+        .recipe-steps {
+            color: #fff;
+            font-size: 1em;
+            line-height: 1.6;
+            padding-left: 20px;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        .recipe-steps li {
+            margin-bottom: 8px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .recipe-steps .highlight {
+            color: #ff1493;
+            font-weight: bold;
+            text-shadow: 
+                0 0 3px #ff1493,
+                0 0 6px #ff1493;
+        }
+        
+        /* Master controls (only shown when 2+ timers) */
+        .master-controls {
+            display: none;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .master-controls button {
+            background: linear-gradient(145deg, #32cd32 0%, #228b22 100%);
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            color: #fff;
+            padding: 12px 24px;
+            font-size: 1em;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: 'Arial Black', Arial, sans-serif;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+        
+        .master-controls .stop-btn {
+            background: linear-gradient(145deg, #ff6b35 0%, #dc143c 100%);
+            border-color: #ff4500;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), 0 0 15px rgba(255, 69, 0, 0.3);
+        }
+        
+        .master-controls .reset-btn {
+            background: linear-gradient(145deg, #6c7b7f 0%, #9b9b9b 100%);
+            border-color: #708090;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Dynamic timer container */
+        #timers-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        
+        /* Individual timer stations */
         .dripper-station {
             background: linear-gradient(145deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             border-radius: 15px;
             padding: 20px 15px;
+            margin-bottom: 20px;
             box-shadow: 
                 inset 0 2px 8px rgba(255, 255, 255, 0.1),
                 inset 0 -2px 8px rgba(0, 0, 0, 0.3),
@@ -99,6 +240,20 @@
             position: relative;
             text-align: center;
             transition: all 0.8s ease;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .dripper-station::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            pointer-events: none;
         }
         
         .dripper-station.needs-attention {
@@ -135,30 +290,41 @@
             }
         }
         
-        .dripper-station::before {
-            content: '';
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            right: 10px;
-            bottom: 10px;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 15px;
-            pointer-events: none;
-        }
-        
         .station-title {
             font-size: 1.4em;
             margin-bottom: 15px;
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: #ff1493;
-            text-shadow: 
-                0 0 5px #ff1493,
-                0 0 10px #ff1493,
-                0 0 15px #ff1493;
+            color: #fff;
             font-family: 'Arial Black', Arial, sans-serif;
+            text-align: center;
+        }
+        
+        .timer-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .remove-btn {
+            position: absolute;
+            right: 0;
+            background: linear-gradient(145deg, #ff6b35 0%, #dc143c 100%);
+            border: 2px solid #ff4500;
+            border-radius: 4px;
+            color: #fff;
+            padding: 4px 8px;
+            font-size: 0.6em;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: 'Arial Black', Arial, sans-serif;
+            box-shadow: 
+                0 2px 6px rgba(0, 0, 0, 0.3),
+                0 0 8px rgba(255, 69, 0, 0.3);
         }
         
         .controls {
@@ -217,16 +383,16 @@
             background: linear-gradient(145deg, #32cd32 0%, #228b22 100%);
             border-color: #00ff00;
             box-shadow: 
-                0 4px 10px rgba(0, 0, 0, 0.3),
-                0 0 15px rgba(0, 255, 0, 0.3);
+                0 3px 8px rgba(0, 0, 0, 0.3),
+                0 0 12px rgba(0, 255, 0, 0.3);
         }
         
         .stop-btn {
             background: linear-gradient(145deg, #ff6b35 0%, #dc143c 100%);
             border-color: #ff4500;
             box-shadow: 
-                0 4px 10px rgba(0, 0, 0, 0.3),
-                0 0 15px rgba(255, 69, 0, 0.3);
+                0 3px 8px rgba(0, 0, 0, 0.3),
+                0 0 12px rgba(255, 69, 0, 0.3);
         }
         
         .reset-btn {
@@ -319,17 +485,15 @@
             font-weight: 900;
             padding: 12px 8px;
             font-family: 'Courier New', monospace;
-            color: #00ff41;
-            text-shadow: 
-                0 0 3px #00ff41,
-                0 0 6px #00ff41,
-                0 0 9px #00ff41;
+            color: #fff;
+            text-shadow: none;
             box-shadow: 
                 inset 0 2px 5px rgba(0, 0, 0, 0.8),
                 inset 0 -2px 5px rgba(255, 255, 255, 0.1),
                 0 0 12px rgba(0, 255, 65, 0.3);
             position: relative;
             overflow: hidden;
+            text-align: center;
         }
         
         .display-time::before {
@@ -399,21 +563,29 @@
             }
         }
         
-
+        /* Add timer button */
+        .add-timer-btn {
+            background: linear-gradient(145deg, #667eea 0%, #764ba2 100%);
+            border: 2px solid #8b9dc3;
+            border-radius: 12px;
+            color: #fff;
+            padding: 12px 24px;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: 'Arial Black', Arial, sans-serif;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), 0 0 15px rgba(102, 126, 234, 0.3);
+            margin-top: 30px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
         
-        @media (max-width: 1024px) {
-            .station-container {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            h1 {
-                font-size: 2.2em;
-            }
-            
-            .dripper-station {
-                padding: 25px 15px;
-            }
+        .add-timer-btn span {
+            font-size: 1.5em;
+            margin-right: 8px;
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff;
         }
         
         @media (max-width: 768px) {
@@ -433,132 +605,58 @@
             }
             
             .display-time {
-                font-size: 1.8em;
+                font-size: 1.6em;
+            }
+            
+            .app-container {
+                padding: 20px;
+                margin: 0 10px;
+            }
+            
+            h1 {
+                font-size: 2em;
+                margin: 10px 0 20px 0;
             }
         }
     </style>
 </head>
 <body>
-    <h1>☕ TRIPLE DRIPPER STATION ☕</h1>
+    <h1>CLEVER DRIPPER TIMER</h1>
     
-    <div class="station-container">
-        <!-- Station 1 -->
-        <div class="dripper-station">
-            <div class="station-title">BRYGG 1</div>
-            
-            <div class="controls">
-                <button class="start-btn" onclick="startStation(1)">Start</button>
-                <button class="stop-btn" onclick="stopStation(1)">Stopp</button>
-                <button class="reset-btn" onclick="resetStation(1)">Reset</button>
+    <div class="app-container">
+        <div class="recipe">
+            <div class="recipe-header">
+                <strong>300g vann / 18g kaffe / på finsiden av medium kverningsgrad</strong>
             </div>
-            
-            <div class="timer-labels">
-                <h3>SWIRL</h3>
-                <h3>DRAIN</h3>
-            </div>
-            
-            <div class="input-row">
-                <div class="timer-input">
-                    <input type="number" id="min1_1" min="0" max="59" value="2" />
-                    <span>min</span>
-                    <input type="number" id="sec1_1" min="0" max="59" value="0" />
-                    <span>sek</span>
-                </div>
-                <div class="timer-input">
-                    <input type="number" id="min2_1" min="0" max="59" value="3" />
-                    <span>min</span>
-                    <input type="number" id="sec2_1" min="0" max="59" value="0" />
-                    <span>sek</span>
-                </div>
-            </div>
-            
-            <div class="display-row">
-                <div class="display-time timer" id="display1_1">02:00</div>
-                <div class="display-time timer" id="display2_1">03:00</div>
-            </div>
+            <ol class="recipe-steps">
+                <li>Hell opp 300g kokende vann</li>
+                <li>Hell oppi kaffen og fukt alt med en skje raskt</li>
+                <li>Start timer</li>
+                <li><span class="highlight">2 minutter:</span> Rør rundt for å la gruten synke til bunnen</li>
+                <li><span class="highlight">3 minutter:</span> Sett Clever Dripper på en beholder og kos deg</li>
+            </ol>
         </div>
-
-        <!-- Station 2 -->
-        <div class="dripper-station">
-            <div class="station-title">BRYGG 2</div>
-            
-            <div class="controls">
-                <button class="start-btn" onclick="startStation(2)">Start</button>
-                <button class="stop-btn" onclick="stopStation(2)">Stopp</button>
-                <button class="reset-btn" onclick="resetStation(2)">Reset</button>
-            </div>
-            
-            <div class="timer-labels">
-                <h3>SWIRL</h3>
-                <h3>DRAIN</h3>
-            </div>
-            
-            <div class="input-row">
-                <div class="timer-input">
-                    <input type="number" id="min1_2" min="0" max="59" value="2" />
-                    <span>min</span>
-                    <input type="number" id="sec1_2" min="0" max="59" value="0" />
-                    <span>sek</span>
-                </div>
-                <div class="timer-input">
-                    <input type="number" id="min2_2" min="0" max="59" value="3" />
-                    <span>min</span>
-                    <input type="number" id="sec2_2" min="0" max="59" value="0" />
-                    <span>sek</span>
-                </div>
-            </div>
-            
-            <div class="display-row">
-                <div class="display-time timer" id="display1_2">02:00</div>
-                <div class="display-time timer" id="display2_2">03:00</div>
-            </div>
+        
+        <!-- Master controls (only shown when 2+ timers) -->
+        <div class="master-controls" id="master-controls">
+            <button onclick="startAllTimers()">START ALLE</button>
+            <button class="stop-btn" onclick="stopAllTimers()">STOPP ALLE</button>
+            <button class="reset-btn" onclick="resetAllTimers()">RESET ALLE</button>
         </div>
-
-        <!-- Station 3 -->
-        <div class="dripper-station">
-            <div class="station-title">BRYGG 3</div>
-            
-            <div class="controls">
-                <button class="start-btn" onclick="startStation(3)">Start</button>
-                <button class="stop-btn" onclick="stopStation(3)">Stopp</button>
-                <button class="reset-btn" onclick="resetStation(3)">Reset</button>
-            </div>
-            
-            <div class="timer-labels">
-                <h3>SWIRL</h3>
-                <h3>DRAIN</h3>
-            </div>
-            
-            <div class="input-row">
-                <div class="timer-input">
-                    <input type="number" id="min1_3" min="0" max="59" value="2" />
-                    <span>min</span>
-                    <input type="number" id="sec1_3" min="0" max="59" value="0" />
-                    <span>sek</span>
-                </div>
-                <div class="timer-input">
-                    <input type="number" id="min2_3" min="0" max="59" value="3" />
-                    <span>min</span>
-                    <input type="number" id="sec2_3" min="0" max="59" value="0" />
-                    <span>sek</span>
-                </div>
-            </div>
-            
-            <div class="display-row">
-                <div class="display-time timer" id="display1_3">02:00</div>
-                <div class="display-time timer" id="display2_3">03:00</div>
-            </div>
-        </div>
+        
+        <!-- Dynamic timer container -->
+        <div id="timers-container"></div>
+        
+        <!-- Add timer button -->
+        <button class="add-timer-btn" onclick="addTimer()">
+            <span>+</span> LEGG TIL TIMER
+        </button>
     </div>
 
     <script>
-        // Station state management
-        const stations = {
-            1: { timer1: null, timer2: null, time1: 0, time2: 0, running: false },
-            2: { timer1: null, timer2: null, time1: 0, time2: 0, running: false },
-            3: { timer1: null, timer2: null, time1: 0, time2: 0, running: false }
-        };
-        
+        // Timer management
+        let timerCount = 0;
+        let timers = {};
         let audioContext = null;
         
         function initAudio() {
@@ -567,11 +665,9 @@
             }
         }
         
-        // Soft, pleasant notification sound
         function playNotificationSound(stationId, timerType) {
             initAudio();
             
-            // Create a warm, coffee-shop ambient chime
             const oscillator1 = audioContext.createOscillator();
             const oscillator2 = audioContext.createOscillator();
             const oscillator3 = audioContext.createOscillator();
@@ -582,18 +678,15 @@
             oscillator3.connect(gainNode);
             gainNode.connect(audioContext.destination);
             
-            // Warm, coffee-shop frequencies
-            const baseFreq = timerType === 'swirl' ? 523.25 : 440; // C5 for swirl, A4 for drain
+            const baseFreq = timerType === 'swirl' ? 523.25 : 440;
             oscillator1.frequency.setValueAtTime(baseFreq, audioContext.currentTime);
-            oscillator2.frequency.setValueAtTime(baseFreq * 1.25, audioContext.currentTime); // Perfect fifth
-            oscillator3.frequency.setValueAtTime(baseFreq * 1.5, audioContext.currentTime); // Octave
+            oscillator2.frequency.setValueAtTime(baseFreq * 1.25, audioContext.currentTime);
+            oscillator3.frequency.setValueAtTime(baseFreq * 1.5, audioContext.currentTime);
             
-            // Soft sine waves for warmth
             oscillator1.type = 'sine';
             oscillator2.type = 'sine';
             oscillator3.type = 'sine';
             
-            // Very gentle envelope
             gainNode.gain.setValueAtTime(0, audioContext.currentTime);
             gainNode.gain.linearRampToValueAtTime(0.15, audioContext.currentTime + 0.1);
             gainNode.gain.exponentialRampToValueAtTime(0.05, audioContext.currentTime + 1.5);
@@ -613,140 +706,209 @@
             return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
         }
         
-        function updateDisplay(stationId) {
-            const station = stations[stationId];
-            document.getElementById(`display1_${stationId}`).textContent = formatTime(station.time1);
-            document.getElementById(`display2_${stationId}`).textContent = formatTime(station.time2);
-        }
-        
-        function updateInputDisplays(stationId) {
-            const min1 = parseInt(document.getElementById(`min1_${stationId}`).value) || 0;
-            const sec1 = parseInt(document.getElementById(`sec1_${stationId}`).value) || 0;
-            const min2 = parseInt(document.getElementById(`min2_${stationId}`).value) || 0;
-            const sec2 = parseInt(document.getElementById(`sec2_${stationId}`).value) || 0;
+        function createTimer(id) {
+            const container = document.getElementById('timers-container');
+            const timerDiv = document.createElement('div');
+            timerDiv.className = 'dripper-station';
+            timerDiv.id = `timer-${id}`;
             
-            stations[stationId].time1 = min1 * 60 + sec1;
-            stations[stationId].time2 = min2 * 60 + sec2;
+            timerDiv.innerHTML = `
+                <div class="timer-header">
+                    <div class="station-title">BRYGG ${id}</div>
+                    <button class="remove-btn" onclick="removeTimer(${id})">FJERN</button>
+                </div>
+                
+                <div class="controls">
+                    <button class="start-btn" onclick="startTimer(${id})">Start</button>
+                    <button class="stop-btn" onclick="stopTimer(${id})">Stopp</button>
+                    <button class="reset-btn" onclick="resetTimer(${id})">Reset</button>
+                </div>
+                
+                <div class="timer-labels">
+                    <h3>SWIRL</h3>
+                    <h3>DRAIN</h3>
+                </div>
+                
+                <div class="input-row">
+                    <div class="timer-input">
+                        <input type="number" id="min1_${id}" min="0" max="59" value="2" />
+                        <span>min</span>
+                        <input type="number" id="sec1_${id}" min="0" max="59" value="0" />
+                        <span>sek</span>
+                    </div>
+                    <div class="timer-input">
+                        <input type="number" id="min2_${id}" min="0" max="59" value="3" />
+                        <span>min</span>
+                        <input type="number" id="sec2_${id}" min="0" max="59" value="0" />
+                        <span>sek</span>
+                    </div>
+                </div>
+                
+                <div class="display-row">
+                    <div class="display-time timer" id="display1_${id}">02:00</div>
+                    <div class="display-time timer" id="display2_${id}">03:00</div>
+                </div>
+            `;
             
-            updateDisplay(stationId);
-        }
-        
-        function startStation(stationId) {
-            const station = stations[stationId];
-            if (station.running) return;
+            container.appendChild(timerDiv);
             
-            initAudio();
-            updateInputDisplays(stationId);
+            // Initialize timer state
+            timers[id] = {
+                timer1: null,
+                timer2: null,
+                time1: 120,
+                time2: 180,
+                running: false,
+                finished1: false,
+                finished2: false
+            };
             
-            if (station.time1 <= 0 && station.time2 <= 0) return;
-            
-            station.running = true;
-            
-            // Remove needs-attention class when starting
-            document.querySelector(`.dripper-station:nth-child(${stationId})`).classList.remove('needs-attention');
-            
-            // Add running class to displays
-            if (station.time1 > 0) {
-                document.getElementById(`display1_${stationId}`).classList.add('running');
-            }
-            if (station.time2 > 0) {
-                document.getElementById(`display2_${stationId}`).classList.add('running');
-            }
-            
-            // Timer 1 (Swirl)
-            if (station.time1 > 0) {
-                station.timer1 = setInterval(() => {
-                    station.time1--;
-                    updateDisplay(stationId);
-                    
-                    if (station.time1 <= 0) {
-                        clearInterval(station.timer1);
-                        document.getElementById(`display1_${stationId}`).classList.remove('running');
-                        document.getElementById(`display1_${stationId}`).classList.add('finished');
-                        // Add needs-attention to entire station
-                        document.querySelector(`.dripper-station:nth-child(${stationId})`).classList.add('needs-attention');
-                        playNotificationSound(stationId, 'swirl');
-                    }
-                }, 1000);
-            }
-            
-            // Timer 2 (Drain)
-            if (station.time2 > 0) {
-                station.timer2 = setInterval(() => {
-                    station.time2--;
-                    updateDisplay(stationId);
-                    
-                    if (station.time2 <= 0) {
-                        clearInterval(station.timer2);
-                        document.getElementById(`display2_${stationId}`).classList.remove('running');
-                        document.getElementById(`display2_${stationId}`).classList.add('finished');
-                        // Add needs-attention to entire station
-                        document.querySelector(`.dripper-station:nth-child(${stationId})`).classList.add('needs-attention');
-                        playNotificationSound(stationId, 'drain');
-                    }
-                }, 1000);
-            }
-        }
-        
-        function stopStation(stationId) {
-            const station = stations[stationId];
-            clearInterval(station.timer1);
-            clearInterval(station.timer2);
-            station.running = false;
-            
-            // Remove running classes
-            document.getElementById(`display1_${stationId}`).classList.remove('running');
-            document.getElementById(`display2_${stationId}`).classList.remove('running');
-            
-            // Remove needs-attention class when manually stopped
-            document.querySelector(`.dripper-station:nth-child(${stationId})`).classList.remove('needs-attention');
-        }
-        
-        function resetStation(stationId) {
-            stopStation(stationId);
-            
-            // Remove needs-attention class
-            document.querySelector(`.dripper-station:nth-child(${stationId})`).classList.remove('needs-attention');
-            
-            // Remove all classes
-            document.getElementById(`display1_${stationId}`).className = 'display-time timer';
-            document.getElementById(`display2_${stationId}`).className = 'display-time timer';
-            
-            // Reset to input values
-            updateInputDisplays(stationId);
-        }
-        
-        function startAllStations() {
-            startStation(1);
-            startStation(2);
-            startStation(3);
-        }
-        
-        function stopAllStations() {
-            stopStation(1);
-            stopStation(2);
-            stopStation(3);
-        }
-        
-        function resetAllStations() {
-            resetStation(1);
-            resetStation(2);
-            resetStation(3);
-        }
-        
-        // Event listeners for input changes
-        for (let stationId = 1; stationId <= 3; stationId++) {
+            // Add event listeners for input changes
             ['min1', 'sec1', 'min2', 'sec2'].forEach(inputType => {
-                document.getElementById(`${inputType}_${stationId}`).addEventListener('input', () => {
-                    if (!stations[stationId].running) updateInputDisplays(stationId);
+                document.getElementById(`${inputType}_${id}`).addEventListener('input', () => {
+                    if (!timers[id].running) updateInputDisplays(id);
                 });
+            });
+            
+            updateMasterControlsVisibility();
+        }
+        
+        function addTimer() {
+            timerCount++;
+            createTimer(timerCount);
+        }
+        
+        function removeTimer(id) {
+            if (Object.keys(timers).length <= 1) return; // Don't remove last timer
+            
+            stopTimer(id);
+            delete timers[id];
+            document.getElementById(`timer-${id}`).remove();
+            updateMasterControlsVisibility();
+        }
+        
+        function updateMasterControlsVisibility() {
+            const masterControls = document.getElementById('master-controls');
+            const timerCount = Object.keys(timers).length;
+            masterControls.style.display = timerCount >= 2 ? 'flex' : 'none';
+        }
+        
+        function updateInputDisplays(id) {
+            const min1 = parseInt(document.getElementById(`min1_${id}`).value) || 0;
+            const sec1 = parseInt(document.getElementById(`sec1_${id}`).value) || 0;
+            const min2 = parseInt(document.getElementById(`min2_${id}`).value) || 0;
+            const sec2 = parseInt(document.getElementById(`sec2_${id}`).value) || 0;
+            
+            timers[id].time1 = min1 * 60 + sec1;
+            timers[id].time2 = min2 * 60 + sec2;
+            
+            document.getElementById(`display1_${id}`).textContent = formatTime(timers[id].time1);
+            document.getElementById(`display2_${id}`).textContent = formatTime(timers[id].time2);
+        }
+        
+        function startTimer(id) {
+            if (timers[id].running) return;
+            
+            timers[id].running = true;
+            timers[id].finished1 = false;
+            timers[id].finished2 = false;
+            
+            // Reset displays
+            document.getElementById(`display1_${id}`).className = 'display-time timer running';
+            document.getElementById(`display2_${id}`).className = 'display-time timer running';
+            document.getElementById(`timer-${id}`).classList.remove('needs-attention');
+            
+            // Start both timers
+            timers[id].timer1 = setInterval(() => {
+                if (timers[id].time1 > 0) {
+                    timers[id].time1--;
+                    document.getElementById(`display1_${id}`).textContent = formatTime(timers[id].time1);
+                } else if (!timers[id].finished1) {
+                    timers[id].finished1 = true;
+                    document.getElementById(`display1_${id}`).className = 'display-time timer finished';
+                    document.getElementById(`timer-${id}`).classList.add('needs-attention');
+                    playNotificationSound(id, 'swirl');
+                }
+            }, 1000);
+            
+            timers[id].timer2 = setInterval(() => {
+                if (timers[id].time2 > 0) {
+                    timers[id].time2--;
+                    document.getElementById(`display2_${id}`).textContent = formatTime(timers[id].time2);
+                } else if (!timers[id].finished2) {
+                    timers[id].finished2 = true;
+                    document.getElementById(`display2_${id}`).className = 'display-time timer finished';
+                    document.getElementById(`timer-${id}`).classList.add('needs-attention');
+                    playNotificationSound(id, 'drain');
+                    
+                    // If both timers are finished, stop the timer
+                    if (timers[id].finished1 && timers[id].finished2) {
+                        stopTimer(id);
+                    }
+                }
+            }, 1000);
+        }
+        
+        function stopTimer(id) {
+            if (!timers[id].running) return;
+            
+            timers[id].running = false;
+            clearInterval(timers[id].timer1);
+            clearInterval(timers[id].timer2);
+            
+            // Update display classes
+            const display1 = document.getElementById(`display1_${id}`);
+            const display2 = document.getElementById(`display2_${id}`);
+            
+            if (timers[id].time1 <= 0) {
+                display1.className = 'display-time timer finished';
+            } else {
+                display1.className = 'display-time timer';
+            }
+            
+            if (timers[id].time2 <= 0) {
+                display2.className = 'display-time timer finished';
+            } else {
+                display2.className = 'display-time timer';
+            }
+        }
+        
+        function resetTimer(id) {
+            stopTimer(id);
+            
+            // Reset times from inputs
+            updateInputDisplays(id);
+            
+            // Reset display classes
+            document.getElementById(`display1_${id}`).className = 'display-time timer';
+            document.getElementById(`display2_${id}`).className = 'display-time timer';
+            document.getElementById(`timer-${id}`).classList.remove('needs-attention');
+            
+            timers[id].finished1 = false;
+            timers[id].finished2 = false;
+        }
+        
+        // Master control functions
+        function startAllTimers() {
+            Object.keys(timers).forEach(id => {
+                if (!timers[id].running) {
+                    startTimer(parseInt(id));
+                }
             });
         }
         
-        // Initialize displays
-        for (let stationId = 1; stationId <= 3; stationId++) {
-            updateInputDisplays(stationId);
+        function stopAllTimers() {
+            Object.keys(timers).forEach(id => {
+                stopTimer(parseInt(id));
+            });
         }
+        
+        function resetAllTimers() {
+            Object.keys(timers).forEach(id => {
+                resetTimer(parseInt(id));
+            });
+        }
+        
     </script>
 </body>
 </html>
