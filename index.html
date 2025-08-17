@@ -1,8 +1,4 @@
-.timer-input input[type="number"]::-webkit-outer-spin-button,
-        .timer-input input[type="number"]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="no">
 <head>
     <meta charset="UTF-8">
@@ -639,6 +635,17 @@
         
         .timer-input:nth-child(2) {
             transform: translateX(-10px);
+        }
+        
+        .timer-input input[type="number"] {
+            -webkit-appearance: none;
+            -moz-appearance: textfield;
+        }
+        
+        .timer-input input[type="number"]::-webkit-outer-spin-button,
+        .timer-input input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
         
         .timer-input input {
