@@ -274,7 +274,7 @@
         .dripper-station {
             background: linear-gradient(145deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             border-radius: 15px;
-            padding: 25px 20px;
+            padding: 25px 20px 30px 20px;
             box-shadow: 
                 inset 0 2px 8px rgba(255, 255, 255, 0.1),
                 inset 0 -2px 8px rgba(0, 0, 0, 0.3),
@@ -285,7 +285,7 @@
             position: relative;
             text-align: center;
             transition: all 0.8s ease;
-            width: 320px;
+            width: 340px;
             flex-shrink: 0;
         }
         
@@ -476,8 +476,75 @@
         .timer-input {
             display: flex;
             justify-content: center;
-            gap: 5px;
+            gap: 15px;
             align-items: center;
+        }
+        
+        .time-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            position: relative;
+        }
+        
+        .time-controls {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .time-adjust-btn {
+            background: linear-gradient(145deg, #4a90e2 0%, #357abd 100%);
+            border: 2px solid #5ba3f5;
+            border-radius: 4px;
+            color: #fff;
+            padding: 2px 6px;
+            font-size: 0.6em;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Arial Black', Arial, sans-serif;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            width: 22px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .time-adjust-btn.up {
+            top: -21px;
+        }
+        
+        .time-adjust-btn.down {
+            bottom: -21px;
+        }
+        
+        .time-adjust-btn:hover {
+            transform: translateX(-50%) translateY(-1px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+        }
+        
+        .time-adjust-btn.down:hover {
+            transform: translateX(-50%) translateY(1px);
+        }
+        
+        .time-adjust-btn:active {
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        .timer-input input[type="number"] {
+            -webkit-appearance: none;
+            -moz-appearance: textfield;
+        }
+        
+        .timer-input input[type="number"]::-webkit-outer-spin-button,
+        .timer-input input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
         
         .timer-input input {
@@ -879,16 +946,40 @@
                 
                 <div class="input-row">
                     <div class="timer-input">
-                        <input type="number" id="min1_${id}" min="0" max="59" value="2" />
-                        <span>min</span>
-                        <input type="number" id="sec1_${id}" min="0" max="59" value="0" />
-                        <span>sek</span>
+                        <div class="time-group">
+                            <button class="time-adjust-btn up" onclick="adjustTime(${id}, 1, 'min', 1)">▲</button>
+                            <div class="time-controls">
+                                <input type="number" id="min1_${id}" min="0" max="59" value="2" />
+                                <span>min</span>
+                            </div>
+                            <button class="time-adjust-btn down" onclick="adjustTime(${id}, 1, 'min', -1)">▼</button>
+                        </div>
+                        <div class="time-group">
+                            <button class="time-adjust-btn up" onclick="adjustTime(${id}, 1, 'sec', 1)">▲</button>
+                            <div class="time-controls">
+                                <input type="number" id="sec1_${id}" min="0" max="59" value="0" />
+                                <span>sek</span>
+                            </div>
+                            <button class="time-adjust-btn down" onclick="adjustTime(${id}, 1, 'sec', -1)">▼</button>
+                        </div>
                     </div>
                     <div class="timer-input">
-                        <input type="number" id="min2_${id}" min="0" max="59" value="3" />
-                        <span>min</span>
-                        <input type="number" id="sec2_${id}" min="0" max="59" value="0" />
-                        <span>sek</span>
+                        <div class="time-group">
+                            <button class="time-adjust-btn up" onclick="adjustTime(${id}, 2, 'min', 1)">▲</button>
+                            <div class="time-controls">
+                                <input type="number" id="min2_${id}" min="0" max="59" value="3" />
+                                <span>min</span>
+                            </div>
+                            <button class="time-adjust-btn down" onclick="adjustTime(${id}, 2, 'min', -1)">▼</button>
+                        </div>
+                        <div class="time-group">
+                            <button class="time-adjust-btn up" onclick="adjustTime(${id}, 2, 'sec', 1)">▲</button>
+                            <div class="time-controls">
+                                <input type="number" id="sec2_${id}" min="0" max="59" value="0" />
+                                <span>sek</span>
+                            </div>
+                            <button class="time-adjust-btn down" onclick="adjustTime(${id}, 2, 'sec', -1)">▼</button>
+                        </div>
                     </div>
                 </div>
                 
@@ -956,6 +1047,12 @@
         
         function startTimer(id) {
             if (timers[id].running) return;
+            
+            // CRITICAL: Initialize audio on user interaction for iOS
+            initAudio();
+            if (audioContext && audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
             
             timers[id].running = true;
             timers[id].finished1 = false;
@@ -1034,6 +1131,24 @@
             
             timers[id].finished1 = false;
             timers[id].finished2 = false;
+        }
+        
+        // Time adjustment function
+        function adjustTime(timerId, timerNum, type, direction) {
+            if (timers[timerId].running) return; // Don't adjust while running
+            
+            const inputId = `${type === 'min' ? 'min' : 'sec'}${timerNum}_${timerId}`;
+            const input = document.getElementById(inputId);
+            let currentValue = parseInt(input.value) || 0;
+            
+            if (type === 'min') {
+                currentValue = Math.max(0, Math.min(59, currentValue + direction));
+            } else {
+                currentValue = Math.max(0, Math.min(59, currentValue + direction));
+            }
+            
+            input.value = currentValue;
+            updateInputDisplays(timerId);
         }
         
         // Master control functions
