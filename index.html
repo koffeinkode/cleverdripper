@@ -753,16 +753,15 @@
         function playNotificationSound(stationId, timerType) {
             initAudio();
             
-            // Rhythm: g.e-c.gg..fff-d
+            // Rhythm: g..e-c.gg-ff-d
             const sequence = [
                 { freq: 392.00, duration: 0.3 }, // g (single G)
-                { freq: null, duration: 0.1 },   // . (short pause)
+                { freq: null, duration: 0.2 },   // .. (medium pause)
                 { freq: 329.63, duration: 0.2 }, // e (quick)
                 { freq: 261.63, duration: 0.2 }, // c (quick, right after e)
                 { freq: null, duration: 0.1 },   // . (short pause)
-                { freq: 392.00, duration: 0.4 }, // gg (G held longer)
-                { freq: null, duration: 0.2 },   // .. (medium pause)
-                { freq: 349.23, duration: 0.6 }, // fff (F held longer, quick transition to D)
+                { freq: 392.00, duration: 0.4 }, // gg (G held longer, quick transition to F)
+                { freq: 349.23, duration: 0.4 }, // ff (F held, quick transition to D)
                 { freq: 293.66, duration: 0.2 }, // d (quick ending)
             ];
             
