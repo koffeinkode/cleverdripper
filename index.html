@@ -747,23 +747,68 @@
         function initAudio() {
             if (!audioContext) {
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Handle suspended audio context (iOS requirement)
+                if (audioContext.state === 'suspended') {
+                    // Create a user interaction handler to resume audio
+                    const resumeAudio = () => {
+                        audioContext.resume().then(() => {
+                            console.log('Audio context resumed');
+                        });
+                        // Remove listeners after first interaction
+                        document.removeEventListener('touchstart', resumeAudio);
+                        document.removeEventListener('click', resumeAudio);
+                    };
+                    
+                    // Add listeners for user interaction
+                    document.addEventListener('touchstart', resumeAudio, { once: true });
+                    document.addEventListener('click', resumeAudio, { once: true });
+                }
             }
         }
         
         function playNotificationSound(stationId, timerType) {
             initAudio();
             
-            // Rhythm: g..ec.gg-ff-d
-            const sequence = [
-                { freq: 392.00, duration: 0.3 }, // g (single G)
-                { freq: null, duration: 0.2 },   // .. (medium pause)
-                { freq: 329.63, duration: 0.2 }, // e (normal speed)
-                { freq: 261.63, duration: 0.2 }, // c (normal speed, no dash so slight gap)
-                { freq: null, duration: 0.1 },   // . (short pause)
-                { freq: 392.00, duration: 0.4 }, // gg (G held longer, quick transition to F)
-                { freq: 349.23, duration: 0.4 }, // ff (F held, quick transition to D)
-                { freq: 293.66, duration: 0.2 }, // d (quick ending)
-            ];
+            // Ensure audio context is running (especially important for iOS)
+            if (audioContext.state === 'suspended') {
+                audioContext.resume().then(() => {
+                    playMelody(stationId, timerType);
+                });
+                return;
+            }
+            
+            playMelody(stationId, timerType);
+        }
+        
+        function playMelody(stationId, timerType) {
+            let sequence;
+            
+            if (timerType === 'swirl') {
+                // First timer (Swirl): g..ec.gg-ff-d
+                sequence = [
+                    { freq: 392.00, duration: 0.3 }, // g (G4)
+                    { freq: null, duration: 0.2 },   // .. (medium pause)
+                    { freq: 329.63, duration: 0.2 }, // e (E4)
+                    { freq: 261.63, duration: 0.2 }, // c (C4)
+                    { freq: null, duration: 0.1 },   // . (short pause)
+                    { freq: 392.00, duration: 0.4 }, // gg (G4)
+                    { freq: 349.23, duration: 0.4 }, // ff (F4)
+                    { freq: 293.66, duration: 0.2 }, // d (D4)
+                ];
+            } else {
+                // Second timer (Drain): f..db.ff-ee-c (F D B F E C in same rhythm)
+                sequence = [
+                    { freq: 349.23, duration: 0.3 }, // f (F4)
+                    { freq: null, duration: 0.2 },   // .. (medium pause)
+                    { freq: 293.66, duration: 0.2 }, // d (D4)
+                    { freq: 246.94, duration: 0.2 }, // b (B3)
+                    { freq: null, duration: 0.1 },   // . (short pause)
+                    { freq: 349.23, duration: 0.4 }, // ff (F4)
+                    { freq: 329.63, duration: 0.4 }, // ee (E4)
+                    { freq: 261.63, duration: 0.2 }, // c (C4)
+                ];
+            }
             
             let currentTime = audioContext.currentTime;
             
